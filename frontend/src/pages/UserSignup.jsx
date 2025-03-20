@@ -14,12 +14,14 @@ const CapainSignup = () => {
     e.preventDefault()
     console.log('submitted')
     setUserData({
-      Fisrtname: Fisrtname,
-      Lastname: Lastname,
+      fullname: {
+        firstname: Fisrtname,
+        lastname: Lastname
+      },
       email: email,
       password: password
     })
-    console.log(userData)
+    // console.log(userData)
     setEmail('')
     setPassword('')
     setFisrtname('')

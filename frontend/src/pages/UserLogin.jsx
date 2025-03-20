@@ -15,7 +15,7 @@ const UserLogin = () => {
       email: email,
       password: password
     })
-    console.log(userData) 
+    // console.log(userData) 
     setEmail('')
     setPassword('')
   }

@@ -14,12 +14,14 @@ const CapainSignup = () => {
     e.preventDefault()
     console.log('submitted')
     setUserData({
-      Fisrtname: Fisrtname,
-      Lastname: Lastname,
+      fullname: {
+        firstname: Fisrtname,
+        lastname: Lastname
+      },
       email: email,
       password: password
     })
-    console.log(userData)
+    // console.log(userData)
     setEmail('')
     setPassword('')
     setFisrtname('')
@@ -35,7 +37,7 @@ const CapainSignup = () => {
           <form onSubmit={(e) => {
             handleSubmit(e)
           }}>
-            <h3 className='text-base mb-2 font-medium'>What's your name</h3>
+            <h3 className='text-base mb-2 font-medium w-full'>What's our Captain's name</h3>
             <div className='flex justify-between gap-5'>
 
               <input
@@ -59,7 +61,7 @@ const CapainSignup = () => {
                 placeholder='Lastname'
               />
             </div>
-            <h3 className='text-base mb-2 font-medium'>What's your email</h3>
+            <h3 className='text-base mb-2 font-medium'>What's our Captain's email</h3>
             <input
               required
               value={email}
