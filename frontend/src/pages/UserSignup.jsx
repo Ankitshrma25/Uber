@@ -15,7 +15,7 @@ const CapainSignup = () => {
 
   const navigate = useNavigate()
 
-  const { user, setUser } = useContext(UserDataContext)
+  const { user, setuser } = useContext(UserDataContext)
 
 
   const handleSubmit =  async (e) => {
@@ -33,9 +33,9 @@ const CapainSignup = () => {
 
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
 
-    if(response.stutus === 201){
+    if(response.status === 201){
       const data = response.data
-      setUser(data.user)
+      setuser(data.user)
       navigate('/home')
     }
 
