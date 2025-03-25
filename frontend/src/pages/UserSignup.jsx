@@ -36,6 +36,7 @@ const CapainSignup = () => {
     if(response.status === 201){
       const data = response.data
       setuser(data.user)
+      localStorage.setItem('token', data.token)
       navigate('/home')
     }
 
