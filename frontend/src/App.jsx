@@ -8,6 +8,7 @@ import UserSignup from './pages/UserSignup'
 import CaptainLogin from './pages/CaptainLogin'
 import CapainSignup from './pages/CapainSignup'
 import UserLogout from './pages/UserLogout'
+import CaptainHome from './pages/CaptainHome'
 import { UserDataContext } from './context/UserContext'
 import Start from './pages/Start'
 import UserProtectWrapper from './pages/UserProtectWrapper'
@@ -23,13 +24,19 @@ const App = () => {
         <Route path="/user-signup" element={<UserSignup />} />
         <Route path="/captain-login" element={<CaptainLogin />} />
         <Route path="/captain-signup" element={<CapainSignup />} />
-        <Route path="/home" element={
+        <Route path="/home" 
+        element={
           <UserProtectWrapper>
             <Home />
           </UserProtectWrapper>
         } />
 
-        <Route path='/users/logout' element={ <UserProtectWrapper><UserLogout /></UserProtectWrapper> } />
+        <Route path='/users/logout' 
+        element={ <UserProtectWrapper>
+          <UserLogout />
+          </UserProtectWrapper> 
+        } />
+        <Route path='/captain-home' element={<CaptainHome />} />
       </Routes>
     </div>
   )
