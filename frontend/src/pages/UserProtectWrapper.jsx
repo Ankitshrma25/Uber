@@ -11,7 +11,7 @@ const UserProtectWrapper = ({
     const token = localStorage.getItem('token')
     const navigate = useNavigate()
 
-    console.log(token)
+    
 
 
     useEffect(() => {

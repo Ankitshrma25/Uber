@@ -43,7 +43,8 @@ try {
         vehicleType: vehicleType
       }
     }
-    console.log(userData)
+    // console.log(userData)
+    
 
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
 
