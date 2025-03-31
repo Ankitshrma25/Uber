@@ -11,7 +11,9 @@ const Home = () => {
   const [destination, setdestination] = useState('')
   const [panelOpen, setPanelOpen] = useState(false)
   const panelRef = useRef(null)
+  const vehiclePanelRef = useRef(null)
   const panelCloseRef = useRef(null)
+  const [VehiclePanel, setVehiclePanel] = useState(false)
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -40,6 +42,18 @@ const Home = () => {
       })
     }
   }, [panelOpen])
+
+  useGSAP(function (){
+    if(VehiclePanel){
+      gsap.to(vehiclePanelRef.current, {
+      transform: 'translateY(0%)',
+      })
+    }else{
+      gsap.to(vehiclePanelRef.current, {
+        transform: 'translateY(100%)',
+        })
+    }
+  },[VehiclePanel])
 
   return (
     <div className='h-screen relative overflow-hidden'>
@@ -85,10 +99,10 @@ const Home = () => {
           </form>
         </div>
         <div ref={panelRef} className=' bg-white h-0 opacity-0 '>
-          <LocationSearchPanel />
+          <LocationSearchPanel VehiclePanel={VehiclePanel} setVehiclePanel={setVehiclePanel} />
         </div>
       </div>
-      <div className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-8 bg-white'>
+      <div ref={vehiclePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-8 bg-white'>
         <h3 className='text-2xl font-semibold mb-5'>Choose a Vehicle</h3>
         {/* first vehicle */}
         <div className='flex w-full p-1 mb-2 border-2 active:border-black border-gray-50 rounded-xl items-center justify-between '>
