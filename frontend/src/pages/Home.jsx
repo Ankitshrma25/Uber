@@ -121,7 +121,7 @@ const Home = () => {
             <h5>5 mins away</h5>
             <p className='font-normal text-xs text-gray-600'>Affordable, compact, and eco-friendly Auto rides</p>
           </div>
-          <h2 className='text-xl font-semibold'>₹94</h2>
+          <h2 className='text-xl font-medium'>₹94</h2>
         </div>
       </div>
 
