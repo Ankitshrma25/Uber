@@ -99,7 +99,7 @@ const Home = () => {
           </form>
         </div>
         <div ref={panelRef} className=' bg-white h-0 opacity-0 '>
-          <LocationSearchPanel VehiclePanel={VehiclePanel} setVehiclePanel={setVehiclePanel} />
+          <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel} />
         </div>
       </div>
       <div ref={vehiclePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-8 bg-white'>
