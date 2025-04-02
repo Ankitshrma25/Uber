@@ -102,8 +102,8 @@ const Home = () => {
           <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel} />
         </div>
       </div>
-      <div ref={vehiclePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-8 bg-white'>
-        <h5 className='absolute w-[93%] text-center top-2 left-1/2 -translate-x-1/2 bg-red-500'><i className="ri-arrow-down-wide-line"></i></h5>
+      <div ref={vehiclePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-10 pt-14 bg-white'>
+        <h5 className='absolute w-[93%] text-center top-2 left-1/2 -translate-x-1/2 '><i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i></h5>
         <h3 className='text-2xl font-semibold mb-5'>Choose a Vehicle</h3>
         {/* first vehicle */}
         <div className='flex w-full p-1 mb-2 border-2 active:border-black border-gray-50 rounded-xl items-center justify-between '>
