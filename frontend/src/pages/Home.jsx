@@ -58,7 +58,7 @@ const Home = () => {
   return (
     <div className='h-screen relative overflow-hidden'>
       <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
-      <div className='h-screen w-screen'>
+      <div  className='h-screen w-screen'>
         {/* Image for temporary use  */}
         <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
       </div>
@@ -103,6 +103,7 @@ const Home = () => {
         </div>
       </div>
       <div ref={vehiclePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-8 bg-white'>
+        <h5 className='absolute w-[93%] text-center top-2 left-1/2 -translate-x-1/2 bg-red-500'><i className="ri-arrow-down-wide-line"></i></h5>
         <h3 className='text-2xl font-semibold mb-5'>Choose a Vehicle</h3>
         {/* first vehicle */}
         <div className='flex w-full p-1 mb-2 border-2 active:border-black border-gray-50 rounded-xl items-center justify-between '>
