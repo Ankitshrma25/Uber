@@ -38,9 +38,10 @@ const VehiclePanel = (props) => {
             <h5>5 mins away</h5> 
             <p className='font-normal text-xs text-gray-600'>Affordable Auto rides</p>
           </div>
-          <h2 className='text-lg font-semibold'>₹94</h2>
+          <h2 className='text-lg font-semibold'>₹91</h2>
         </div>
       </div>
+
     
   )
 }
