@@ -46,19 +46,25 @@ const Home = () => {
   useGSAP(function (){
     if(VehiclePanel){
       gsap.to(vehiclePanelRef.current, {
-      transform: 'translateY(0%)',
+      transform: 'translateY(0)',
+      opacity: 1,
+      duration: 0.5,
       })
     }else{
       gsap.to(vehiclePanelRef.current, {
         transform: 'translateY(100%)',
+        opacity: 0,
+        duration: 0.5,
         })
     }
   },[VehiclePanel])
+  
+  
 
   return (
     <div className='h-screen relative overflow-hidden'>
       <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
-      <div  className='h-screen w-screen'>
+      <div className='h-screen w-screen'>
         {/* Image for temporary use  */}
         <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
       </div>
@@ -103,7 +109,8 @@ const Home = () => {
         </div>
       </div>
       <div ref={vehiclePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-10 pt-14 bg-white'>
-        
+      
+
       </div>
 
       
