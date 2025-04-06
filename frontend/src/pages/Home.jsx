@@ -5,6 +5,7 @@ import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel'
 import VehiclePanel from '../components/VehiclePanel'
 import ConfirmedRide from '../components/ConfirmedRide'
+import LookingForDriver from '../components/LookingForDriver'
 
 
 const Home = () => {
@@ -15,9 +16,11 @@ const Home = () => {
   const panelRef = useRef(null)
   const vehiclePanelRef = useRef(null)
   const confirmRidePanelRef = useRef(null)
+  const vehicleFoundRef = useRef(null)
   const panelCloseRef = useRef(null)
   const [isVehiclePanelOpen, setIsVehiclePanelOpen] = useState(false)
   const [confirmRidePanel, setConfirmRidePanel] = useState(false)
+  const [vehicleFound, setVehicleFound] = useState(false)
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -47,31 +50,42 @@ const Home = () => {
     }
   }, [panelOpen])
 
-  useGSAP(function (){
-    if(isVehiclePanelOpen){
+  useGSAP(function () {
+    if (isVehiclePanelOpen) {
       gsap.to(vehiclePanelRef.current, {
-      transform: 'translateY(0)',
+        transform: 'translateY(0)',
       })
-    }else{
+    } else {
       gsap.to(vehiclePanelRef.current, {
         transform: 'translateY(100%)',
-        })
+      })
     }
-  },[isVehiclePanelOpen])
+  }, [isVehiclePanelOpen])
 
-  useGSAP(function (){
-    if(confirmRidePanel){
+  useGSAP(function () {
+    if (confirmRidePanel) {
       gsap.to(confirmRidePanelRef.current, {
-      transform: 'translateY(0)',
+        transform: 'translateY(0)',
       })
-    }else{
+    } else {
       gsap.to(confirmRidePanelRef.current, {
         transform: 'translateY(100%)',
-        })
+      })
     }
-  },[confirmRidePanel])
-  
-  
+  }, [confirmRidePanel])
+
+  useGSAP(function () {
+    if (vehicleFound) {
+      gsap.to(vehicleFoundRef.current, {
+        transform: 'translateY(0)',
+      })
+    } else {
+      gsap.to(vehicleFoundRef.current, {
+        transform: 'translateY(100%)',
+      })
+    }
+  }, [vehicleFound])
+
 
   return (
     <div className='h-screen relative overflow-hidden'>
@@ -124,7 +138,10 @@ const Home = () => {
         <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setIsVehiclePanelOpen={setIsVehiclePanelOpen} />
       </div>
       <div ref={confirmRidePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-6 pt-12 bg-white'>
-        <ConfirmedRide />
+        <ConfirmedRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+      </div>
+      <div ref={vehicleFoundRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-6 pt-12 bg-white'>
+        <LookingForDriver />
       </div>
 
     </div>
