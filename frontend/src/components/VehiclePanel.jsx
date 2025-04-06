@@ -3,8 +3,8 @@ import React from 'react'
 const VehiclePanel = (props) => {
   return (
     <div>
-        <h5 onClick={()=>{
-          props.setVehiclePanel(false)
+       <h5 onClick={()=>{
+          props.setIsVehiclePanel(false)
         }} className='absolute w-[93%] text-center top-2 left-1/2 -translate-x-1/2 '><i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i></h5>
         <h3 className='text-2xl font-semibold mb-5'>Choose a Vehicle</h3>
         {/* first vehicle */}
@@ -40,9 +40,7 @@ const VehiclePanel = (props) => {
           </div>
           <h2 className='text-lg font-semibold'>₹91</h2>
         </div>
-      </div>
-
-    
+    </div>
   )
 }
 

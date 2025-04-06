@@ -3,6 +3,7 @@ import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel'
+import VehiclePanel from '../components/VehiclePanel'
 
 
 const Home = () => {
@@ -13,7 +14,7 @@ const Home = () => {
   const panelRef = useRef(null)
   const vehiclePanelRef = useRef(null)
   const panelCloseRef = useRef(null)
-  const [VehiclePanel, setVehiclePanel] = useState(false)
+  const [isVehiclePanelOpen, setIsVehiclePanelOpen] = useState(false)
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -44,20 +45,16 @@ const Home = () => {
   }, [panelOpen])
 
   useGSAP(function (){
-    if(VehiclePanel){
+    if(isVehiclePanelOpen){
       gsap.to(vehiclePanelRef.current, {
       transform: 'translateY(0)',
-      opacity: 1,
-      duration: 0.5,
       })
     }else{
       gsap.to(vehiclePanelRef.current, {
         transform: 'translateY(100%)',
-        opacity: 0,
-        duration: 0.5,
         })
     }
-  },[VehiclePanel])
+  },[isVehiclePanelOpen])
   
   
 
@@ -104,16 +101,14 @@ const Home = () => {
               placeholder='Enter your destination' />
           </form>
         </div>
-        <div ref={panelRef} className=' bg-white h-0 opacity-0 '>
-          <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel} />
+        <div ref={panelRef} className=' bg-white h-0 '>
+          <LocationSearchPanel setPanelOpen={setPanelOpen} setIsVehiclePanelOpen={setIsVehiclePanelOpen} />
         </div>
       </div>
       <div ref={vehiclePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-10 pt-14 bg-white'>
-      
-
+        <VehiclePanel setIsVehiclePanel={setIsVehiclePanelOpen} />
       </div>
 
-      
     </div>
   )
 }
