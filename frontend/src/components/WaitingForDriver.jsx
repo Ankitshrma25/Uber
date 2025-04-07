@@ -1,10 +1,10 @@
 import React from 'react'
 
-const WaitingForDriver = () => {
+const WaitingForDriver = (props) => {
   return (
     <div>
     <h5 onClick={() => {
-        props.setIsVehiclePanelOpen(false)
+        props.setwaitingForDriver(false)
     }} className='absolute w-[93%] text-center top-2 left-1/2 -translate-x-1/2 '><i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i></h5>
     
     <div className='flex items-center justify-between mb-5'>
