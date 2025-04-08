@@ -11,7 +11,7 @@ import { gsap } from 'gsap'
 
 function CaptainHome() {
 
-  const [ridePopupPanel, setRidePopupPanel] = useState(false)
+  const [ridePopupPanel, setRidePopupPanel] = useState(true)
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false)
 
 
@@ -61,7 +61,7 @@ function CaptainHome() {
       <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white'>
         <RidePopUp setRidePopupPanel={setRidePopupPanel} setConfirmRidePopupPanel={setConfirmRidePopupPanel}/>
       </div>
-      <div ref={confirmridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white'>
+      <div ref={confirmridePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white'>
         <ConfirmRidePopUp setConfirmRidePopupPanel={setConfirmRidePopupPanel} />
       </div>
     </div>
