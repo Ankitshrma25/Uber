@@ -7,7 +7,7 @@ const captainModule = require('../models/captain.model');
 
 module.exports.authUser = async (req, res, next) => {
     const token = req.cookies.token || (req.headers.authorization && req.headers.authorization.startsWith('Bearer') ? req.headers.authorization.split(' ')[1] : null);
-    console.log("Token recieved:", token);
+    // console.log("Token recieved:", token);
     // This line checks if the token is stored in the cookie or in the Authorization header
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
@@ -42,7 +42,7 @@ module.exports.authUser = async (req, res, next) => {
 
 module.exports.authCaptain = async (req, res, next) => {
     const token = req.cookies.token || (req.headers.authorization && req.headers.authorization.startsWith('Bearer') ? req.headers.authorization.split(' ')[1] : null);
-    console.log("Token recieved:", token);
+    // console.log("Token recieved:", token);
     // This line checks if the token is stored in the cookie or in the Authorization header
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
@@ -57,9 +57,9 @@ module.exports.authCaptain = async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log("Decoded Token:", decoded);
+        // console.log("Decoded Token:", decoded);
         const captain = await captainModule.findById(decoded._id);
-        console.log("Captain found in db:", captain);
+        // console.log("Captain found in db:", captain);
 
         if (!captain) {
             return res.status(401).json({ message: 'Captain not found' });

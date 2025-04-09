@@ -62,7 +62,7 @@ function CaptainHome() {
         <RidePopUp setRidePopupPanel={setRidePopupPanel} setConfirmRidePopupPanel={setConfirmRidePopupPanel}/>
       </div>
       <div ref={confirmridePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white'>
-        <ConfirmRidePopUp setConfirmRidePopupPanel={setConfirmRidePopupPanel} />
+        <ConfirmRidePopUp setRidePopupPanel={setRidePopupPanel} setConfirmRidePopupPanel={setConfirmRidePopupPanel} />
       </div>
     </div>
   )

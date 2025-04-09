@@ -11,7 +11,7 @@ module.exports.registerUser = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    console.log(req.body);
+    // console.log(req.body);
 
     const { fullname, email, password } = req.body;
 
@@ -91,7 +91,7 @@ module.exports.getUserProfile = async (req, res, next) => {
 module.exports.logoutUser = async (req, res, next) => {
     res.clearCookie('token');
     const token = req.cookies.token || (req.headers.authorization && req.headers.authorization.startsWith('Bearer') ? req.headers.authorization.split(' ')[1] : null);
-    console.log("Token recieved:", token);
+    // console.log("Token recieved:", token);
 
     await blacklistTokenModule.create({ token
 
