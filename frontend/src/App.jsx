@@ -15,6 +15,7 @@ import Start from './pages/Start'
 import UserProtectWrapper from './pages/UserProtectWrapper'
 import CaptainProtectWrapper from './pages/CaptainProtectWrapper'
 import CaptainRiding from './pages/CaptainRiding'
+import 'remixicon/fonts/remixicon.css'
 
 const App = () => {
 
