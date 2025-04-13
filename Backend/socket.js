@@ -1,4 +1,6 @@
 const socketIO = require('socket.io');
+const userModel = require('./models/user.model');
+const captainModel = require('./models/captain.model');
 
 let io;
 const connectedUsers = new Map(); // Store user_id -> socket_id mapping
@@ -14,6 +16,17 @@ const initializeSocket = (server) => {
 
     io.on('connection', (socket) => {
         console.log('New connection established:', socket.id);
+
+        socket.on('join', async (data) => {
+
+            const { userId, userType } = data;
+
+            if (userType == 'user'){
+                await userModel.findByIdAndUpdate(userId, { socketId: socket.id }); 
+            } else if (userType === 'captain') {
+                await captainModel.findByIdAndUpdate(userId, { socketId: socket.id }); 
+            }
+        });
 
         // Handle user connection
         socket.on('user_connected', (userId) => {
