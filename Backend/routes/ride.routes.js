@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body, query } = require('express-validator');
 const rideController = require('../controllers/ride.controller');
-
+const authMiddleware = require('../middlewares/auth.middleware'); // Add this line
 
 router.post('/create', 
     body('userId').isString().isLength({ min: 24, max: 24 }).withMessage('Invalid user ID'),
