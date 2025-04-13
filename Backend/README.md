@@ -368,6 +368,7 @@ Example Response:
 
 ## GET /captains/logout
 
+
 ### Description
 Logs out the currently authenticated captain by invalidating their token and clearing session cookies.
 
@@ -414,3 +415,39 @@ Example Response:
   "message": "Internal server error"
 }
 ```
+
+## GET /rides/get-fare
+
+### Description
+Calculates the estimated fare for a ride based on pickup and destination locations.
+
+### Authentication
+- Requires a valid JWT token in the Authorization header
+- Uses `authMiddleware.authUser`
+
+### Query Parameters
+```json
+{
+  "pickup": "string", // minimum 3 characters
+  "destination": "string" // minimum 3 characters
+}
+```
+
+### Response
+```json
+{
+  "auto": 150, // fare in INR for auto
+  "car": 250,  // fare in INR for car
+  "motorcycle": 100 // fare in INR for motorcycle
+}
+```
+
+This documentation:
+1. Describes the endpoint purpose
+2. Lists authentication requirements
+3. Shows query parameter format
+4. Details validation rules
+5. Provides response format for success/error cases
+6. Includes example request/response
+
+Let me know if you'd like me to modify or expand any part of this documentation.

@@ -27,6 +27,7 @@ const Home = () => {
   const [waitingForDriver, setWaitingForDriver] = useState(false)
   const [suggestions, setSuggestions] = useState([])
   const [activeField, setActiveField] = useState('') // 'pickup' or 'destination'
+  const [fares, setFares] = useState({})
 
   const fetchSuggestions = async (query) => {
     try {
@@ -149,6 +150,21 @@ const Home = () => {
   }, [waitingForDriver])
 
 
+  async function findTrip() {
+    setIsVehiclePanelOpen(true)
+    setPanelOpen(false)
+
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
+     params: { pickup, destination },
+     headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+     }
+    })
+
+    comsole.log(response.data)
+  }
+
+
   return (
     <div className='h-screen relative overflow-hidden'>
       <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
@@ -189,6 +205,10 @@ const Home = () => {
               type="text"
               placeholder='Enter your destination' />
           </form>
+          <button onClick={findTrip} // Trip finding function is triggered
+          className="bg-black text-white px-4 py-2 rounded-lg mt-4 w-full">
+            Find Trip
+          </button>
         </div>
         <div ref={panelRef} className=' bg-white h-0 '>
           <LocationSearchPanel
@@ -200,7 +220,7 @@ const Home = () => {
         </div>
       </div>
       <div ref={vehiclePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-10 pt-12 bg-white'>
-        <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setIsVehiclePanelOpen={setIsVehiclePanelOpen} />
+        <VehiclePanel fares={fares} setConfirmRidePanel={setConfirmRidePanel} setIsVehiclePanelOpen={setIsVehiclePanelOpen} />
       </div>
       <div ref={confirmRidePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-6 pt-12 bg-white'>
         <ConfirmedRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />

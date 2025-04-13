@@ -33,6 +33,9 @@ async function getFare(pickup, destination) {
 }
 
 
+module.exports.getFare = getFare;
+
+
 function getOTP(num) {
     return parseInt(
         crypto.randomInt(
