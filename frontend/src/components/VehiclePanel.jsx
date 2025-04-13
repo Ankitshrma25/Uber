@@ -10,7 +10,7 @@ const VehiclePanel = (props) => {
         {/* first vehicle */}
         <div onClick={()=>{
           props.setConfirmRidePanel(true)
-          props.createRide({pickup: props.pickup, destination: props.destination, fare: props.fares.car})
+          props.selectVehicle({pickup: props.pickup, destination: props.destination, fare: props.fares.car})
         }} 
         className='flex w-full p-1 mb-2 border-2 active:border-black border-gray-50 rounded-xl items-center justify-between '>
           <img className='h-12' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_300,w_533/v1646663215/assets/6e/e50c1b-2174-4c97-83a1-bfd4544689d0/original/uberX.png" alt="" />
@@ -25,7 +25,7 @@ const VehiclePanel = (props) => {
         {/* second Vehicle */}
         <div onClick={()=>{
           props.setConfirmRidePanel(true)
-          props.createRide({pickup: props.pickup, destination: props.destination, fare: props.fares.motecycle})
+          props.selectVehicle({pickup: props.pickup, destination: props.destination, fare: props.fares.motecycle})
         }}
         className='flex w-full p-1 mb-2 border-2 active:border-black border-gray-50 rounded-xl items-center justify-between '>
           <img className='h-10' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_768,w_1152/v1649230978/assets/a2/553a18-2f77-4722-a4ba-f736f4cb405e/original/Uber_Moto_Orange_558x372_pixels_Desktop.png" alt="" />
@@ -40,7 +40,7 @@ const VehiclePanel = (props) => {
         {/* Third Vehicle */}
         <div onClick={()=>{
           props.setConfirmRidePanel(true)
-          props.createRide({pickup: props.pickup, destination: props.destination, fare: props.fares.auto})
+          props.selectVehicle({pickup: props.pickup, destination: props.destination, fare: props.fares.auto})
         }} 
         className='flex w-full p-1 mb-2 border-2 active:border-black border-gray-50 rounded-xl items-center justify-between '>
           <img className='h-10' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_768,w_1152/v1648431773/assets/1d/db8c56-0204-4ce4-81ce-56a11a07fe98/original/Uber_Auto_558x372_pixels_Desktop.png" alt="" />

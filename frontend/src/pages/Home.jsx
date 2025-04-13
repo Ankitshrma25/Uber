@@ -28,6 +28,7 @@ const Home = () => {
   const [suggestions, setSuggestions] = useState([])
   const [activeField, setActiveField] = useState('') // 'pickup' or 'destination'
   const [fares, setFares] = useState({})
+  const [vehicleType, setVehicleType] = useState(null)
 
   const fetchSuggestions = async (query) => {
     try {
@@ -164,7 +165,7 @@ const Home = () => {
     comsole.log(response.data)
   }
 
-  async function createRide(vehicleType){
+  async function createRide(){
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
       pickup,
       destination,
@@ -235,14 +236,28 @@ const Home = () => {
       </div>
       <div ref={vehiclePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-10 pt-12 bg-white'>
         <VehiclePanel 
-        createRide={createRide}
+        selectVehicle={setVehicleType}
         fares={fares} setConfirmRidePanel={setConfirmRidePanel} setIsVehiclePanelOpen={setIsVehiclePanelOpen} />
       </div>
       <div ref={confirmRidePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-6 pt-12 bg-white'>
-        <ConfirmedRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+        <ConfirmedRide
+          createRide={createRide}
+          pickup={pickup} 
+          destination={destination} 
+          fares={fares}
+          vehicleType={vehicleType}
+          setIsVehiclePanelOpen={setIsVehiclePanelOpen}
+          setConfirmRidePanel={setConfirmRidePanel} 
+          setVehicleFound={setVehicleFound} />
       </div>
       <div ref={vehicleFoundRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-6 pt-12 bg-white'>
-        <LookingForDriver setVehicleFound={setVehicleFound} />
+        <LookingForDriver 
+        createRide={createRide}
+        pickup={pickup} 
+        destination={destination} 
+        fares={fares}
+        vehicleType={vehicleType}
+        setVehicleFound={setVehicleFound} />
       </div>
       <div ref={waitingForDriverRef} className='fixed w-full z-10  bottom-0 px-3 py-6 pt-12 bg-white'>
         <WaitingForDriver waitingForDriver={waitingForDriver} />
