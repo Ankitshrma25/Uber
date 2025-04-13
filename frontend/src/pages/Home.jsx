@@ -7,7 +7,7 @@ import VehiclePanel from '../components/VehiclePanel'
 import ConfirmedRide from '../components/ConfirmedRide'
 import LookingForDriver from '../components/LookingForDriver'
 import WaitingForDriver from '../components/WaitingForDriver'
-
+import axios from 'axios'
 
 const Home = () => {
 
@@ -25,6 +25,52 @@ const Home = () => {
   const [confirmRidePanel, setConfirmRidePanel] = useState(false)
   const [vehicleFound, setVehicleFound] = useState(false)
   const [waitingForDriver, setWaitingForDriver] = useState(false)
+  const [suggestions, setSuggestions] = useState([])
+  const [activeField, setActiveField] = useState('') // 'pickup' or 'destination'
+
+  const fetchSuggestions = async (query) => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/autocomplete?input=${encodeURIComponent(query)}`)
+      setSuggestions(response.data)
+    } catch (error) {
+      console.error('Error fetching suggestions:', error)
+      setSuggestions([])
+    }
+  }
+
+  const handleInputChange = async (e, type) => {
+    const value = e.target.value
+    
+    if (type === 'pickup') {
+      setpickup(value)
+      setActiveField('pickup')
+    } else {
+      setdestination(value)
+      setActiveField('destination')
+    }
+
+    if (value.length > 2) {
+      await fetchSuggestions(value)
+      setPanelOpen(true)
+    } else {
+      setSuggestions([])
+    }
+  }
+
+  const handleSuggestionSelect = (suggestion) => {
+    if (activeField === 'pickup') {
+      setpickup(suggestion)
+    } else {
+      setdestination(suggestion)
+    }
+    setPanelOpen(false)
+    setSuggestions([])
+
+    // If both fields are filled, open vehicle panel
+    if (pickup && destination) {
+      setIsVehiclePanelOpen(true)
+    }
+  }
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -125,11 +171,10 @@ const Home = () => {
             <input
               onClick={() => {
                 setPanelOpen(true)
+                setActiveField('pickup')
               }}
               value={pickup}
-              onChange={(e) => {
-                setpickup(e.target.value)
-              }}
+              onChange={(e) => handleInputChange(e, 'pickup')}
               className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-5'
               type="text"
               placeholder='Add a pickup location'
@@ -137,17 +182,21 @@ const Home = () => {
             <input className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-4'
               onClick={() => {
                 setPanelOpen(true)
+                setActiveField('destination')
               }}
               value={destination}
-              onChange={(e) => {
-                setdestination(e.target.value)
-              }}
+              onChange={(e) => handleInputChange(e, 'destination')}
               type="text"
               placeholder='Enter your destination' />
           </form>
         </div>
         <div ref={panelRef} className=' bg-white h-0 '>
-          <LocationSearchPanel setPanelOpen={setPanelOpen} setIsVehiclePanelOpen={setIsVehiclePanelOpen} />
+          <LocationSearchPanel
+            suggestions={suggestions}
+            onSelect={handleSuggestionSelect}
+            setPanelOpen={setPanelOpen}
+            setIsVehiclePanelOpen={setIsVehiclePanelOpen}
+          />
         </div>
       </div>
       <div ref={vehiclePanelRef} className='fixed w-full z-10 translate-y-full bottom-0 px-3 py-10 pt-12 bg-white'>
