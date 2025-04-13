@@ -21,8 +21,8 @@ async function getFare(pickup, destination) {
     for (const vehicle in rates) {
         const rate = rates[vehicle];
         const fare = rate.base + 
-            (distanceAndTime.distance * rate.perKm) + 
-            (distanceAndTime.time * rate.perMin);
+            ((distanceAndTime.distance.value / 1000) * rate.perKm) + 
+            ((distanceAndTime.duration.value / 60) * rate.perMin);
         fares[vehicle] = Math.round(fare);
     }
 
