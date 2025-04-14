@@ -17,35 +17,44 @@ const initializeSocket = (server) => {
     io.on('connection', (socket) => {
         console.log('New connection established:', socket.id);
 
+        // Handle join event
         socket.on('join', async (data) => {
-
             const { userId, userType } = data;
 
-            if (userType == 'user'){
+            if (userType === 'user') {
                 await userModel.findByIdAndUpdate(userId, { socketId: socket.id }); 
             } else if (userType === 'captain') {
                 await captainModel.findByIdAndUpdate(userId, { socketId: socket.id }); 
             }
         });
 
-        // Handle user connection
-        socket.on('user_connected', (userId) => {
-            console.log('User connected:', userId);
-            connectedUsers.set(userId, socket.id);
-            socket.userId = userId;
+        // Handle location updates from captain
+        socket.on('update-location-captain', async (data) => {
+            const { userId, latitude, longitude } = data;
+
+            if (!latitude || !longitude) {
+                return socket.emit('location_error', { message: 'Invalid location data' });
+            }
+
+            if (typeof latitude !== 'number' || typeof longitude !== 'number') {
+                return socket.emit('location_error', { message: 'Location coordinates must be numbers' });
+            }
+
+            if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+                return socket.emit('location_error', { message: 'Location coordinates out of valid range' });
+            }
+
+            await captainModel.findByIdAndUpdate(userId, {
+                location: {
+                    ltd: latitude,
+                    lng: longitude
+                }
+            });
         });
 
-        // Handle captain connection
-        socket.on('captain_connected', (captainId) => {
-            console.log('Captain connected:', captainId);
-            connectedCaptains.set(captainId, socket.id);
-            socket.captainId = captainId;
-        });
-
-        // Handle ride request
+        // Handle ride requests
         socket.on('request_ride', (data) => {
             const { userId, pickup, destination, vehicleType } = data;
-            // Broadcast ride request to all available captains
             io.emit('new_ride_request', {
                 userId,
                 pickup,
@@ -55,7 +64,7 @@ const initializeSocket = (server) => {
             });
         });
 
-        // Handle captain accepting ride
+        // Handle ride acceptance
         socket.on('accept_ride', (data) => {
             const { userId, captainId } = data;
             const userSocketId = connectedUsers.get(userId);
@@ -66,12 +75,6 @@ const initializeSocket = (server) => {
                     captainSocketId: socket.id
                 });
             }
-        });
-
-        // Handle location updates
-        socket.on('location_update', (location) => {
-            console.log('Location update:', location);
-            // Handle location update logic here
         });
 
         // Handle disconnection
