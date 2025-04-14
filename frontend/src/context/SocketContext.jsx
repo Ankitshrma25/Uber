@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
-const SocketContext = createContext();
+// Export the context
+export const SocketContext = createContext();
 
 export const useSocket = () => {
     const context = useContext(SocketContext);
@@ -17,7 +18,7 @@ export const SocketProvider = ({ children }) => {
 
     useEffect(() => {
         // Initialize socket connection
-        const socketInstance = io(import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000', {
+        const socketInstance = io(import.meta.env.VITE_BASE_URL || 'http://localhost:4000', {
             reconnection: true,
             reconnectionDelay: 1000,
             reconnectionDelayMax: 5000,
@@ -42,36 +43,28 @@ export const SocketProvider = ({ children }) => {
 
         setSocket(socketInstance);
 
-        // Cleanup on unmount
         return () => {
             socketInstance.disconnect();
         };
     }, []);
 
-    // Function to emit events
-    const sendMessage = (eventName, data) => {
-        if (socket && isConnected) {
-            socket.emit(eventName, data);
-        } else {
-            console.warn('Socket is not connected');
-        }
-    };
-
-    // Function to listen for events
-    const subscribeToEvent = (eventName, callback) => {
-        if (socket) {
-            socket.on(eventName, callback);
-            // Return cleanup function
-            return () => socket.off(eventName, callback);
-        }
-        return () => {}; // Return empty cleanup if no socket
-    };
-
     const value = {
         socket,
         isConnected,
-        sendMessage,
-        subscribeToEvent
+        sendMessage: (eventName, data) => {
+            if (socket && isConnected) {
+                socket.emit(eventName, data);
+            } else {
+                console.warn('Socket is not connected');
+            }
+        },
+        subscribeToEvent: (eventName, callback) => {
+            if (socket) {
+                socket.on(eventName, callback);
+                return () => socket.off(eventName, callback);
+            }
+            return () => {};
+        }
     };
 
     return (

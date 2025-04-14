@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom'
 import CaptainDeatils from '../components/CAptainDeatils'
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp'
 import RidePopUp from '../components/RidePopUp'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
+import { SocketContext } from '../context/SocketContext'
+import { CaptainDataContext } from '../context/CaptainContext'
+import { useContext } from 'react'
+
+
+
 
 // import CaptainDetails from '../components/CaptainDetails'
 
@@ -18,6 +24,15 @@ function CaptainHome() {
   const confirmridePopupPanelRef = useRef(null)
   const ridePopupPanelRef = useRef(null)
 
+  const { socket } = useContext(SocketContext)
+  const { captain } = useContext(CaptainDataContext)
+
+  useEffect(() => {
+    socket.emit('join', {
+      userId: captain._id,
+      userType: 'captain'
+    })
+  })
 
 
   useGSAP(function () {
