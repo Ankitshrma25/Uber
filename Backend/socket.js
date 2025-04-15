@@ -6,6 +6,17 @@ let io;
 const connectedUsers = new Map(); // Store user_id -> socket_id mapping
 const connectedCaptains = new Map(); // Store captain_id -> socket_id mapping
 
+// Move sendMessageToSocketId outside of initializeSocket
+const sendMessageToSocketId = (socketId, messageObject) => {
+    console.log(`Sending message to ${socketId}:`, messageObject);
+
+    if (io) {
+        io.to(socketId).emit(messageObject.event, messageObject.data);
+    } else {
+        console.log('Socket.io is not initialized');
+    }
+};
+
 const initializeSocket = (server) => {
     io = socketIO(server, {
         cors: {
@@ -23,8 +34,10 @@ const initializeSocket = (server) => {
 
             if (userType === 'user') {
                 await userModel.findByIdAndUpdate(userId, { socketId: socket.id }); 
+                connectedUsers.set(userId, socket.id);
             } else if (userType === 'captain') {
                 await captainModel.findByIdAndUpdate(userId, { socketId: socket.id }); 
+                connectedCaptains.set(userId, socket.id);
             }
         });
 
@@ -100,6 +113,7 @@ const isCaptainOnline = (captainId) => connectedCaptains.has(captainId);
 
 module.exports = {
     initializeSocket,
+    sendMessageToSocketId,
     getUserSocketId,
     getCaptainSocketId,
     isUserOnline,

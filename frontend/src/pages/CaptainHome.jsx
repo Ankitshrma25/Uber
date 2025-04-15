@@ -39,10 +39,20 @@ function CaptainHome() {
     const updateLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
+
+          // console.log({userId: captain._id,
+          //   location: {
+          //     ltd: position.coords.latitude,
+          //     lng: position.coords.longitude}
+          //   }
+          // )
+
           socket.emit('update-location-captain', {
             userId: captain._id,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
+           location: {
+              ltd: position.coords.latitude,
+              lng: position.coords.longitude
+            }
           })
         })
       }
@@ -61,6 +71,11 @@ function CaptainHome() {
       }
     }
   }, [socket, captain]) // Add dependencies
+
+
+  socket.on('new-ride', (data) => {
+    console.log(data)
+  })
 
   useGSAP(function () {
       if (ridePopupPanel) {

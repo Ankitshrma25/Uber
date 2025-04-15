@@ -1,8 +1,7 @@
 const rideService = require('../services/ride.service');
 const { validationResult } = require('express-validator');
-
-
-
+const mapService = require('../services/maps.service');
+const { sendMessageToSocketId } = require('../socket'); // Fix: Correct destructuring syntax
 
 module.exports.createRide = async (req, res) => {
     const errors = validationResult(req);
@@ -19,7 +18,23 @@ module.exports.createRide = async (req, res) => {
             destination,
             vehicleType
         });
-        return res.status(201).json(ride);
+        res.status(201).json(ride);
+
+        const pickupCoordinates = await mapService.getAdressCoordinate(pickup);
+        console.log(pickupCoordinates)
+
+        const captainsInRadius = await mapService.getCaptainsInTheRadius(pickupCoordinates.ltd, pickupCoordinates.lng, 5000);
+        
+        ride.otp = ""
+
+        captainsInRadius.map(async captain => {
+            console.log(captain, ride);
+            sendMessageToSocketId(captain.socketId, {
+                event: 'new-ride',
+                data: ride
+            })
+        });
+
     } catch (error) {
         console.error('Error creating ride:', error.message);
         return res.status(500).json({ message: 'Internal server error' });
