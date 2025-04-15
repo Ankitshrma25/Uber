@@ -2,6 +2,8 @@ const rideService = require('../services/ride.service');
 const { validationResult } = require('express-validator');
 const mapService = require('../services/maps.service');
 const { sendMessageToSocketId } = require('../socket'); // Fix: Correct destructuring syntax
+const rideModel = require('../models/ride.model');
+
 
 module.exports.createRide = async (req, res) => {
     const errors = validationResult(req);
@@ -27,11 +29,13 @@ module.exports.createRide = async (req, res) => {
         
         ride.otp = ""
 
+        const rideWithUser = await rideModel.findOne({ _id: ride._id }).populate('user')
+
         captainsInRadius.map(async captain => {
             console.log(captain, ride);
             sendMessageToSocketId(captain.socketId, {
                 event: 'new-ride',
-                data: ride
+                data: rideWithUser
             })
         });
 

@@ -246,6 +246,7 @@ const Home = () => {
           destination={destination} 
           fares={fares}
           vehicleType={vehicleType}
+          
           setIsVehiclePanelOpen={setIsVehiclePanelOpen}
           setConfirmRidePanel={setConfirmRidePanel} 
           setVehicleFound={setVehicleFound} />

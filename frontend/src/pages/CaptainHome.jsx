@@ -18,12 +18,13 @@ import { useContext } from 'react'
 
 function CaptainHome() {
 
-  const [ridePopupPanel, setRidePopupPanel] = useState(true)
+  const [ridePopupPanel, setRidePopupPanel] = useState(false)
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false)
   const locationIntervalRef = useRef(null) // Add this line
 
   const confirmridePopupPanelRef = useRef(null)
   const ridePopupPanelRef = useRef(null)
+  const [ ride, setRide ] = useState(null)
 
   const { socket } = useContext(SocketContext)
   const { captain } = useContext(CaptainDataContext)
@@ -116,7 +117,10 @@ function CaptainHome() {
         <CaptainDeatils />
       </div>
       <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white'>
-        <RidePopUp setRidePopupPanel={setRidePopupPanel} setConfirmRidePopupPanel={setConfirmRidePopupPanel}/>
+        <RidePopUp
+          ride={ride}
+         setRidePopupPanel={setRidePopupPanel} 
+         setConfirmRidePopupPanel={setConfirmRidePopupPanel}/>
       </div>
       <div ref={confirmridePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white'>
         <ConfirmRidePopUp setRidePopupPanel={setRidePopupPanel} setConfirmRidePopupPanel={setConfirmRidePopupPanel} />
