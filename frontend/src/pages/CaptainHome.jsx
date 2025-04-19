@@ -76,7 +76,25 @@ function CaptainHome() {
 
   socket.on('new-ride', (data) => {
     console.log(data)
+    setRide(data)
+    setRidePopupPanel(true)
   })
+
+
+  async function confirmRide() {
+    
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
+      rideId: ride._id,
+      captainId: captain._id,
+    }, {
+      headers: {
+        'Authorization': `Bearer ${captain.token}`,
+      },
+    })  
+
+    setConfirmRidePopupPanel(true)
+    setRidePopupPanel(false)
+  }
 
   useGSAP(function () {
       if (ridePopupPanel) {
@@ -120,7 +138,9 @@ function CaptainHome() {
         <RidePopUp
           ride={ride}
          setRidePopupPanel={setRidePopupPanel} 
-         setConfirmRidePopupPanel={setConfirmRidePopupPanel}/>
+         setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+         confirmRide={confirmRide}   // Add comma here
+        />
       </div>
       <div ref={confirmridePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white'>
         <ConfirmRidePopUp setRidePopupPanel={setRidePopupPanel} setConfirmRidePopupPanel={setConfirmRidePopupPanel} />

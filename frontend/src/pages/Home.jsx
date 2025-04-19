@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import 'remixicon/fonts/remixicon.css'
@@ -8,6 +8,9 @@ import ConfirmedRide from '../components/ConfirmedRide'
 import LookingForDriver from '../components/LookingForDriver'
 import WaitingForDriver from '../components/WaitingForDriver'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { SocketContext } from '../context/SocketContext'
+import { UserDataContext } from '../context/UserDataContext'
 
 const Home = () => {
 
@@ -29,6 +32,33 @@ const Home = () => {
   const [activeField, setActiveField] = useState('') // 'pickup' or 'destination'
   const [fares, setFares] = useState({})
   const [vehicleType, setVehicleType] = useState(null)
+
+  const navigate = useNavigate()
+
+  const { socket } = useContext(SocketContext)
+  const { user } = useContext(UserDataContext)
+
+  useEffect(() => {
+    // Only emit join event if both socket and user exist
+    if (socket && user?._id) {
+      socket.emit("join", { 
+        userType: "user", 
+        userId: user._id 
+      });
+    }
+  }, [socket, user]); // Add user to dependency array
+
+  socket.on('ride-confirmed', ride => {
+    setVehicleFound(false)
+    setWaitingForDriver(true)
+    setRide(ride)
+  })
+
+  socket.on('ride-started', ride => {
+    console.log("ride")
+    setWaitingForDriver(false)
+    navigate('/riding', { state: { ride } }) // Updated navigate to include ride data
+  })
 
   const fetchSuggestions = async (query) => {
     try {
